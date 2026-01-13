@@ -1,24 +1,79 @@
-# Liste des packages installés
+# 📦 Package List
 
-## Depuis les dépôts officiels (pacman)
+## Official Repositories (Pacman)
+
+### Base System
+- base
+- base-devel
+- linux
+- linux-firmware
+- networkmanager
+- network-manager-applet
+
+### Hyprland & Wayland
 - hyprland
+- xdg-desktop-portal-hyprland
+- xdg-desktop-portal-gtk
+- waybar
+- swww
+- hyprpicker
+- wl-clipboard
+- cliphist
+- grim
+- slurp
+- hyprlock
+- hypridle
+
+### Terminal & Shell
 - foot
 - fish
 - starship
 - fastfetch
 - btop
-- neovim
-- waybar
-- swww
-- networkmanager
-- ttf-jetbrains-mono-nerd
-- papirus-icon-theme
+- eza
+- trash-cli
 
-## Depuis AUR (via yay)
+### Development
+- git
+- neovim
+- gcc
+- make
+- cmake
+
+### Fonts
+- ttf-jetbrains-mono-nerd
+- ttf-font-awesome
+- noto-fonts
+- noto-fonts-emoji
+
+### Themes & Icons
+- papirus-icon-theme
+- adw-gtk-theme
+
+### Audio & Multimedia
+- pipewire
+- pipewire-alsa
+- pipewire-pulse
+- wireplumber
+- pavucontrol
+- playerctl
+- pamixer
+- mpv
+
+## AUR Packages (via yay)
+
+### Caelestia Components
 - caelestia-shell
 - caelestia-cli
-- zen-browser-bin (optionnel)
-- visual-studio-code-bin (optionnel)
-- spotify + spicetify-cli (optionnel)
-- vesktop-bin (optionnel)
-- caffeine-ng
+
+### Optional Applications
+- zen-browser-bin (Browser)
+- visual-studio-code-bin (IDE)
+- spotify (Music)
+- spicetify-cli (Spotify customization)
+- vesktop-bin (Discord)
+- caffeine-ng (Prevent sleep)
+
+## Total Installation Size
+
+Approximately 8-12 GB including all optional packages.
