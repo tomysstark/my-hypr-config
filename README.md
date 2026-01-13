@@ -4,9 +4,6 @@
 
 [![Arch Linux](https://img.shields.io/badge/Arch_Linux-1793D1?style=for-the-badge&logo=arch-linux&logoColor=white)](https://archlinux.org/)
 [![Hyprland](https://img.shields.io/badge/Hyprland-00ADD8?style=for-the-badge&logo=wayland&logoColor=white)](https://hyprland.org/)
-[![License](https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge)](LICENSE)
-
-![Screenshot](screenshots/desktop.png)
 
 ## ✨ Features
 
@@ -130,22 +127,6 @@ The color scheme is managed by Caelestia Shell. To customize:
 nano ~/.local/share/caelestia-shell/themes/
 ```
 
-## 📸 Screenshots
-
-*Add your screenshots here*
-
-### Desktop
-![Desktop](screenshots/desktop.png)
-
-### Terminal
-![Terminal](screenshots/terminal.png)
-
-### Fastfetch
-![Fastfetch](screenshots/fastfetch.png)
-
-### Spotify (Starrynight Theme)
-![Spotify](screenshots/spotify.png)
-
 ## 🛠️ Configuration Files
 
 ```
@@ -199,10 +180,6 @@ git pull
 - **Spotify Theme**: Starrynight
 - **Neovim**: [LazyVim](https://github.com/LazyVim/LazyVim) by folke
 - **Compositor**: [Hyprland](https://hyprland.org/)
-
-## 📄 License
-
-This configuration is released under the MIT License. See [LICENSE](LICENSE) for details.
 
 ## 🤝 Contributing
 
