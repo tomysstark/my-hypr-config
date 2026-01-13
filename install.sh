@@ -1,0 +1,136 @@
+#!/bin/bash
+
+# Script d'installation pour ma config Arch + Caelestia modifiée
+# Par: Tomy Stark
+
+set -e
+
+BLUE='\033[0;34m'
+GREEN='\033[0;32m'
+RED='\033[0;31m'
+NC='\033[0m'
+
+echo "╔════════════════════════════════════════════════╗"
+echo "║   Installation de ma config Arch modifiée      ║"
+echo "║   Basé sur Caelestia + Starrynight + AZERTY    ║"
+echo "╚════════════════════════════════════════════════╝"
+echo ""
+
+# Vérifier qu'on est sur Arch
+if ! command -v pacman &> /dev/null; then
+    echo -e "${RED}Erreur: Ce script nécessite Arch Linux${NC}"
+    exit 1
+fi
+
+echo -e "${BLUE}[1/9]${NC} Mise à jour du système..."
+sudo pacman -Syu --noconfirm
+
+echo -e "${BLUE}[2/9]${NC} Installation de yay (AUR helper)..."
+if ! command -v yay &> /dev/null; then
+    cd /tmp
+    git clone https://aur.archlinux.org/yay.git
+    cd yay
+    makepkg -si --noconfirm
+    cd -
+fi
+
+echo -e "${BLUE}[3/9]${NC} Installation des dépendances de base..."
+sudo pacman -S --needed --noconfirm \
+    hyprland xdg-desktop-portal-hyprland xdg-desktop-portal-gtk \
+    waybar swww hyprpicker wl-clipboard cliphist \
+    foot fish starship fastfetch btop \
+    neovim git base-devel \
+    networkmanager nm-applet \
+    ttf-jetbrains-mono-nerd papirus-icon-theme
+
+echo -e "${BLUE}[4/9]${NC} Installation de caelestia-shell et caelestia-cli..."
+yay -S --noconfirm caelestia-shell caelestia-cli
+
+echo -e "${BLUE}[5/9]${NC} Installation de Hyprland configs..."
+mkdir -p ~/.config
+ln -sf "$(pwd)/hypr" ~/.config/hypr
+
+echo -e "${BLUE}[6/9]${NC} Installation de Fish + Fastfetch..."
+ln -sf "$(pwd)/fish" ~/.config/fish
+ln -sf "$(pwd)/fastfetch" ~/.config/fastfetch
+ln -sf "$(pwd)/starship.toml" ~/.config/starship.toml
+
+# Changer le shell par défaut en Fish
+if [ "$SHELL" != "/bin/fish" ]; then
+    echo -e "${BLUE}Changement du shell par défaut vers Fish...${NC}"
+    chsh -s /bin/fish
+fi
+
+echo -e "${BLUE}[7/9]${NC} Installation du wallpaper..."
+mkdir -p ~/Pictures
+cp wallpapers/*.png ~/Pictures/
+
+# Configurer swww pour le wallpaper
+WALLPAPER=$(ls ~/Pictures/*.png | head -n 1)
+if ! grep -q "exec-once = swww-daemon" ~/.config/hypr/hyprland.conf; then
+    echo "exec-once = swww-daemon" >> ~/.config/hypr/hyprland.conf
+    echo "exec-once = swww img $WALLPAPER" >> ~/.config/hypr/hyprland.conf
+fi
+
+echo -e "${BLUE}[8/9]${NC} Installation de LazyVim..."
+if [ ! -d ~/.config/nvim ]; then
+    git clone https://github.com/LazyVim/starter ~/.config/nvim
+    rm -rf ~/.config/nvim/.git
+fi
+ln -sf "$(pwd)/nvim" ~/.config/nvim
+
+echo -e "${BLUE}[9/9]${NC} Installation optionnelle des apps..."
+
+# Zen Browser
+read -p "Installer Zen Browser ? [y/N] " -n 1 -r
+echo
+if [[ $REPLY =~ ^[Yy]$ ]]; then
+    yay -S --noconfirm zen-browser-bin
+fi
+
+# VSCode
+read -p "Installer VSCode ? [y/N] " -n 1 -r
+echo
+if [[ $REPLY =~ ^[Yy]$ ]]; then
+    yay -S --noconfirm visual-studio-code-bin
+fi
+
+# Spotify + Spicetify
+read -p "Installer Spotify avec Spicetify (thème Starrynight) ? [y/N] " -n 1 -r
+echo
+if [[ $REPLY =~ ^[Yy]$ ]]; then
+    yay -S --noconfirm spotify spicetify-cli
+    ln -sf "$(pwd)/spicetify" ~/.config/spicetify
+    spicetify backup apply
+    spicetify config current_theme Starrynight
+    spicetify apply
+fi
+
+# Discord
+read -p "Installer Discord (Vesktop) ? [y/N] " -n 1 -r
+echo
+if [[ $REPLY =~ ^[Yy]$ ]]; then
+    yay -S --noconfirm vesktop-bin
+fi
+
+# Caffeine (anti-veille)
+echo -e "${BLUE}Installation de Caffeine (anti-veille vidéos)...${NC}"
+yay -S --noconfirm caffeine-ng
+if ! grep -q "exec-once = caffeine" ~/.config/hypr/hyprland.conf; then
+    echo "exec-once = caffeine 2>/dev/null" >> ~/.config/hypr/hyprland.conf
+fi
+
+echo ""
+echo -e "${GREEN}╔════════════════════════════════════════════════╗${NC}"
+echo -e "${GREEN}║        ✓ Installation terminée !               ║${NC}"
+echo -e "${GREEN}╚════════════════════════════════════════════════╝${NC}"
+echo ""
+echo -e "${BLUE}Pour démarrer Hyprland:${NC} tapez 'Hyprland' dans le terminal"
+echo ""
+echo -e "${BLUE}Raccourcis principaux:${NC}"
+echo "  Super          - Launcher"
+echo "  Super + T      - Terminal"
+echo "  Super + W      - Navigateur"
+echo "  Super + C      - VSCode"
+echo ""
+echo -e "${GREEN}Profitez de votre nouvelle installation ! 🚀${NC}"
