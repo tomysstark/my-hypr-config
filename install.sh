@@ -50,13 +50,16 @@ yay -S --noconfirm caelestia-shell caelestia-cli
 echo -e "${BLUE}[5/9]${NC} Installation des configurations Hyprland..."
 mkdir -p ~/.config
 
+# Obtenir le chemin absolu du script
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
 # Backup si existe déjà
 if [ -d ~/.config/hypr ] && [ ! -L ~/.config/hypr ]; then
     echo "Sauvegarde de l'ancienne config Hyprland..."
     mv ~/.config/hypr ~/.config/hypr.backup.$(date +%s)
 fi
 
-ln -sf "$(pwd)/hypr" ~/.config/hypr
+ln -sf "$SCRIPT_DIR/hypr" ~/.config/hypr
 
 echo -e "${BLUE}[6/9]${NC} Installation de Fish, Fastfetch, Foot et Btop..."
 
@@ -66,14 +69,14 @@ for config_dir in fish fastfetch foot btop; do
         echo "Sauvegarde de ~/.config/$config_dir..."
         mv ~/.config/$config_dir ~/.config/${config_dir}.backup.$(date +%s)
     fi
-    ln -sf "$(pwd)/$config_dir" ~/.config/$config_dir
+    ln -sf "$SCRIPT_DIR/$config_dir" ~/.config/$config_dir
 done
 
 # Starship
 if [ -f ~/.config/starship.toml ] && [ ! -L ~/.config/starship.toml ]; then
     mv ~/.config/starship.toml ~/.config/starship.toml.backup.$(date +%s)
 fi
-ln -sf "$(pwd)/starship.toml" ~/.config/starship.toml
+ln -sf "$SCRIPT_DIR/starship.toml" ~/.config/starship.toml
 
 # Changer le shell par défaut en Fish
 if [ "$SHELL" != "/bin/fish" ] && [ "$SHELL" != "/usr/bin/fish" ]; then
@@ -102,7 +105,7 @@ if [ -d ~/.config/nvim ] && [ ! -L ~/.config/nvim ]; then
 fi
 
 # Créer le symlink vers la config nvim du repo
-ln -sf "$(pwd)/nvim" ~/.config/nvim
+ln -sf "$SCRIPT_DIR/nvim" ~/.config/nvim
 
 echo -e "${BLUE}[9/9]${NC} Installation optionnelle des applications..."
 echo ""
@@ -131,7 +134,7 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
     if [ -d ~/.config/spicetify ] && [ ! -L ~/.config/spicetify ]; then
         mv ~/.config/spicetify ~/.config/spicetify.backup.$(date +%s)
     fi
-    ln -sf "$(pwd)/spicetify" ~/.config/spicetify
+    ln -sf "$SCRIPT_DIR/spicetify" ~/.config/spicetify
     
     # Appliquer le thème
     spicetify backup apply
