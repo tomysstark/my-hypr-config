@@ -147,15 +147,24 @@ read -p "Installer Discord (Vesktop) ? [y/N] " -n 1 -r
 echo
 if [[ $REPLY =~ ^[Yy]$ ]]; then
     yay -S --noconfirm vesktop-bin
+
+    # Symlink config Discord
+    if [ -d ~/.config/discord ] && [ ! -L ~/.config/discord ]; then
+        mv ~/.config/discord ~/.config/discord.backup.$(date +%s)
+    fi
+    ln -sf "$SCRIPT_DIR/discord" ~/.config/discord
 fi
 
-# Caffeine (anti-veille)
-echo ""
-echo -e "${BLUE}Installation de Caffeine (anti-veille vidéos)...${NC}"
-yay -S --noconfirm caffeine-ng
-if ! grep -q "exec-once = caffeine" ~/.config/hypr/hyprland.conf; then
-    echo "exec-once = caffeine 2>/dev/null" >> ~/.config/hypr/hyprland.conf
-fi
+# Zen Browser (config à venir)
+# Décommente quand tu auras un profil Zen à sauvegarder
+# read -p "Lier la config Zen Browser ? [y/N] " -n 1 -r
+# echo
+# if [[ $REPLY =~ ^[Yy]$ ]]; then
+#     if [ -d ~/.config/zen ] && [ ! -L ~/.config/zen ]; then
+#         mv ~/.config/zen ~/.config/zen.backup.$(date +%s)
+#     fi
+#     ln -sf "$SCRIPT_DIR/zen" ~/.config/zen
+# fi
 
 echo ""
 echo -e "${GREEN}╔════════════════════════════════════════════════╗${NC}"
